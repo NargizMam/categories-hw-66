@@ -12,17 +12,16 @@ const NewMeal = () => {
         try{
             setCreateLoading(true);
             await axiosApi.post('/meals.json', meal);
-            navigate('/');
+
         }finally {
-            setCreateLoading(false);
+            navigate('/');
         }
     };
 
     return (
         <div>
-            New meal
             <MealForm onSubmit={createMeal}
-                      loading={creatLoading}
+                      updating={creatLoading}
             />
         </div>
     );

@@ -27,8 +27,10 @@ const MealForm:React.FC<Props> = ({
     const [newMeal, setNewMeal] = useState<ApiMeal>(existingMeal);
     const onMealsChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {name, value} = e.target;
+
+        const data = name === "calorie"? parseInt(value) : value;
         setNewMeal(prev => ({...prev,
-            [name]: value,
+            [name]: data,
         }));
     };
     const onFormSubmit = async (e: React.FormEvent) => {
@@ -57,14 +59,14 @@ const MealForm:React.FC<Props> = ({
                         Meal Type  <br/>
                         <select className='Label px-5 py-2'
                                 name="mealType"
+                                value={newMeal.mealType}
                                 onChange={onMealsChange}
                         >
-                            <option disabled>Выберите категорию</option>
+                            <option disabled value="">Выберите категорию</option>
                             {selectOption}
                         </select>
                     </label><br/>
                 </div>
-
                 <div className="form-group">
                     <label htmlFor="food">Text</label>
                     <textarea
@@ -84,6 +86,7 @@ const MealForm:React.FC<Props> = ({
                     />
                 </div>
                 <button type="submit" className="btn btn-primary mt-2"
+                        disabled={updating || newMeal.calorie === 0 || newMeal.mealType === '' || newMeal.food === ''}
                 >
                     {updating && <ButtonSpinner/>}
                     {id ? 'Edit' : 'Create'}

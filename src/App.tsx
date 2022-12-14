@@ -11,34 +11,45 @@ const App = () => {
     const [mealList, setMealList] = useState<ApiMeal[]>([]);
     const [loading, setLoading] = useState(false);
     const location = useLocation();
+    const [totalPrice, setTotalPrice] = useState<number>(0);
 
-    const fetchMeals =useCallback(async () => {
+    const getTotal = (array: ApiMeal[]) => {
+        const total = array.reduce((acc, meal) => {
+            return acc + meal.calorie;
+        }, 0);
+        setTotalPrice(total);
+    };
+
+    const fetchMeals = useCallback(async () => {
         try{
             setLoading(true);
-            let mealsResponse =await axiosApi.get<ApiMealsList>('/meals.json');
+            let mealsResponse = await axiosApi.get<ApiMealsList>('/meals.json');
             const meals = mealsResponse.data;
             let newMeal: ApiMeal[] = [];
             if (meals) {
                 newMeal = Object.keys(meals).map(id => {
                     const meal = meals[id];
-                    let foods = [];
-
                     return {
                         ...meal,
                         id
                     }
-
                 });
             }
             setMealList(newMeal);
+            getTotal(newMeal);
         }finally {
             setLoading(false);
         }
     }, []);
 
+    const onDelete = async (id: string) => {
+        await axiosApi.delete<ApiMeal>('/meals/' + id + '.json');
+        await fetchMeals().catch(console.error);
+    }
+
     useEffect(() => {
         if (location.pathname === '/') {
-            void fetchMeals();
+            fetchMeals().catch(console.error);
         }
     }, [location, fetchMeals]);
 
@@ -49,6 +60,8 @@ const App = () => {
             <Route path="/" element={(
                 <Home mealList={mealList}
                       mealsLoading={loading}
+                      totalPrice={totalPrice}
+                      onDelete={onDelete}
                 />
             )}/>
             <Route path="/new-meal" element={(

@@ -4,9 +4,9 @@ import './ButtonSpinner.css';
 const ButtonSpinner = () => {
     return (
         <>
-            <button className="buttonload">
+            <div className="buttonload">
                 <i className="fa fa-refresh fa-spin"></i>Loading
-            </button>
+            </div>
         </>
     );
 };

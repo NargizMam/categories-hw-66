@@ -1,19 +1,16 @@
 import React from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
 import {ApiMeal} from "../../types";
-import axiosApi from "../../axiosApi";
 
 interface Props {
     meal: ApiMeal;
+    onDelete: React.MouseEventHandler;
 }
 
-const MealInfo: React.FC<Props> = ({meal}) => {
+const MealInfo: React.FC<Props> = ({meal, onDelete}) => {
     const navigate = useNavigate();
 
-    const onDelete = async () => {
-        await axiosApi.delete<ApiMeal>('/meals/' + meal.id + '.json');
-        navigate('/');
-    }
+
 
     return (
         <div className="card col-7 m-2">
