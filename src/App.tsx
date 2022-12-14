@@ -4,7 +4,7 @@ import {Route, Routes, useLocation} from "react-router-dom";
 import Home from "./containers/Home/Home";
 import NewMeal from "./containers/NewMeal/NewMeal";
 import EditMeal from "./containers/EditMeal/EditMeal";
-import {ApiMeal, ApiMealsList, Meal} from "./types";
+import {ApiMeal, ApiMealsList} from "./types";
 import axiosApi from "./axiosApi";
 
 const App = () => {

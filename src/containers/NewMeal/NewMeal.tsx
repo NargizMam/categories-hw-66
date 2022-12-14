@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import MealForm from "../../components/MealForm/MealForm";
-import {ApiMeal, Meal} from "../../types";
+import {ApiMeal} from "../../types";
 import axiosApi from "../../axiosApi";
 import {useNavigate} from "react-router-dom";
 
