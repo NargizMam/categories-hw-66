@@ -1,16 +1,15 @@
 import React from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
 import {ApiMeal} from "../../types";
+import ButtonSpinner from "../../UI/Spinner/ButtonSpinner/ButtonSpinner";
 
 interface Props {
     meal: ApiMeal;
     onDelete: React.MouseEventHandler;
+    loading: boolean;
 }
 
-const MealInfo: React.FC<Props> = ({meal, onDelete}) => {
-    const navigate = useNavigate();
-
-
+const MealInfo: React.FC<Props> = ({meal, onDelete, loading}) => {
 
     return (
         <div className="card col-7 m-2">
@@ -24,7 +23,9 @@ const MealInfo: React.FC<Props> = ({meal, onDelete}) => {
                 </article>
 
                 <NavLink to={`/edit-meal/${meal.id}`} className="btn btn-warning">EDIT</NavLink>
-                <button className="btn btn-warning mx-2" onClick={onDelete}>DELETE</button>
+                <button className="btn btn-warning mx-2"
+                        onClick={onDelete}
+                        disabled={loading}>{loading ? <ButtonSpinner/> : 'DELETE'}</button>
             </div>
         </div>
     );

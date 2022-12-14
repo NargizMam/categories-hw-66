@@ -43,9 +43,14 @@ const App = () => {
     }, []);
 
     const onDelete = async (id: string) => {
-        await axiosApi.delete<ApiMeal>('/meals/' + id + '.json');
-        await fetchMeals().catch(console.error);
-    }
+        try{
+            setLoading(true);
+            await axiosApi.delete<ApiMeal>('/meals/' + id + '.json');
+            await fetchMeals().catch(console.error);
+        }finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if (location.pathname === '/') {
@@ -62,6 +67,7 @@ const App = () => {
                       mealsLoading={loading}
                       totalPrice={totalPrice}
                       onDelete={onDelete}
+                      loading={loading}
                 />
             )}/>
             <Route path="/new-meal" element={(

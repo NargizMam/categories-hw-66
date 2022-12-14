@@ -9,13 +9,15 @@ interface Props {
     mealsLoading: boolean;
     totalPrice: number;
     onDelete: (id: string) => void;
+    loading: boolean;
 }
 
-const Home: React.FC<Props> = ({mealList, mealsLoading, totalPrice,onDelete}) => {
+const Home: React.FC<Props> = ({mealList, mealsLoading, totalPrice,onDelete, loading}) => {
     let mealsInfo = mealList.map(meal => (
         <MealInfo key={meal.id}
                   meal={meal}
                   onDelete={() => onDelete(meal.id)}
+                  loading={loading}
         />
     ));
 
